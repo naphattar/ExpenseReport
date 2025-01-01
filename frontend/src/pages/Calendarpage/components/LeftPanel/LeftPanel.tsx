@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import MonthView from "./MonthView/MonthView";
 
 interface LeftPanelProps {
@@ -23,7 +23,9 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect }) => {
     return months;
   };
 
-  const months = generateMonths();
+  const months = useMemo(() => {
+    return generateMonths();
+  },[])
 
   return (
     <div className="p-4 h-full overflow-y-auto">
