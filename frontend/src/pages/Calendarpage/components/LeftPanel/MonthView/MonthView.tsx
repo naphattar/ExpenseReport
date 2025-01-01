@@ -7,33 +7,57 @@ interface MonthViewProps {
   month: number;
 }
 
-const MonthView : React.FC<MonthViewProps> = ({onDateSelect , year , month}) => {
+const MonthView: React.FC<MonthViewProps> = ({ onDateSelect, year, month }) => {
+  const getDaysInMonth = (year: number, month: number) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
 
-    const getDaysInMonth = (year: number, month: number) => {
-        return new Date(year, month + 1, 0).getDate();
-    };
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    return(
-        <div
-          key={`${year}-${month}`}
-          className="mb-6 h-[70vh] overflow-y-auto"
-        >
-          <h3 className="text-xl font-semibold text-center mb-2">
-            {new Date(year, month).toLocaleString("default", { month: "long" })}{" "}
-            {year}
-          </h3>
-          <div className="grid grid-cols-7 gap-2">
-            {Array.from({ length: getDaysInMonth(year, month) }, (_, i) => i + 1).map((day) => (
-              <CalendarCell
-                onDateSelect={onDateSelect}
-                day={day}
-                month={month}
-                year={year}
-              />
-            ))}
+  const firstDayOfMonth = new Date(year, month, 1).getDay();
+  const daysInMonth = getDaysInMonth(year, month);
+
+  // Calculate leading blanks to align the first day of the month
+  const leadingBlanks = Array(firstDayOfMonth).fill(null);
+
+  return (
+    <div
+      key={`${year}-${month}`}
+      className="mb-6 h-[80vh] overflow-y-auto p-4 bg-gray-50 rounded shadow"
+    >
+      <h3 className="text-2xl font-bold text-center mb-4 text-gray-700">
+        {new Date(year, month).toLocaleString("default", { month: "long" })} {year}
+      </h3>
+
+      {/* Days of the Week Header */}
+      <div className="grid grid-cols-7 gap-2 text-center font-semibold bg-blue-500 text-white rounded-t-lg shadow">
+        {daysOfWeek.map((day) => (
+          <div key={day} className="p-2 uppercase tracking-wide">
+            {day}
           </div>
-        </div>
-      )
-}
+        ))}
+      </div>
 
-export default MonthView
+      {/* Calendar Grid */}
+      <div className="grid grid-cols-7 gap-4 mt-2">
+        {/* Leading Blanks */}
+        {leadingBlanks.map((_, index) => (
+          <div key={`blank-${index}`} className="p-6"></div>
+        ))}
+
+        {/* Calendar Days */}
+        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
+          <CalendarCell
+            key={`${year}-${month}-${day}`}
+            onDateSelect={onDateSelect}
+            day={day}
+            month={month}
+            year={year}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MonthView;
