@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import LeftPanel from "./components/LeftPanel/Leftside";
-import RightPanel from "./components/RightPanel/Rightside";
+import LeftPanel from "./components/LeftPanel/LeftPanel";
+import RightPanel from "./components/RightPanel/RightPanel";
 
 const CalendarPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
