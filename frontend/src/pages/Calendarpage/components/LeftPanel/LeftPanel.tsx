@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
 import MonthView from "./MonthView/MonthView";
 
 interface LeftPanelProps {
@@ -59,4 +59,4 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect ,selectedDate}) => {
   );
 };
 
-export default LeftPanel;
+export default memo(LeftPanel);

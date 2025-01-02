@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import CalendarCell from "../CalendarCell/CalendarCell";
 
 interface MonthViewProps {
@@ -64,4 +64,4 @@ const MonthView: React.FC<MonthViewProps> = ({ onDateSelect, year, month , selec
   );
 };
 
-export default MonthView;
+export default memo(MonthView);

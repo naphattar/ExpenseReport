@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Entry, EntryType } from "../../../../types/Entry";
 
 interface RightPanelProps {
@@ -114,4 +114,4 @@ const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, data, addEntry })
   );
 };
 
-export default RightPanel;
+export default memo(RightPanel);

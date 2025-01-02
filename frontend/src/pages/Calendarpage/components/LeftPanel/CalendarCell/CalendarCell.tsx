@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 
 interface CalendarCellProps {
   onDateSelect: (date: string) => void;
@@ -49,4 +49,4 @@ const CalendarCell: React.FC<CalendarCellProps> = ({
   );
 };
 
-export default CalendarCell;
+export default memo(CalendarCell);
