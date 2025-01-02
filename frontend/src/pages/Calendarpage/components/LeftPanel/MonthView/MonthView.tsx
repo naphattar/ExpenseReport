@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import CalendarCell from "../CalendarCell/CalendarCell";
 
 interface MonthViewProps {
@@ -16,7 +16,10 @@ const MonthView: React.FC<MonthViewProps> = ({ onDateSelect, year, month , selec
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const firstDayOfMonth = new Date(year, month, 1).getDay();
-  const daysInMonth = getDaysInMonth(year, month);
+  
+  const daysInMonth = useMemo(() => {
+    return getDaysInMonth(year, month);
+  },[month, year])
 
   const leadingBlanks = Array(firstDayOfMonth).fill(null);
 
