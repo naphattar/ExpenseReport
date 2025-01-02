@@ -1,6 +1,6 @@
-function Navbar(){
+function Navbar() {
   return (
-    <nav className="flex flex-wrap items-center justify-between px-6 py-4 bg-blue-600 text-white shadow-md">
+    <nav className="fixed top-0 left-0 right-0 z-10 flex flex-wrap items-center justify-between px-6 py-4 bg-blue-600 text-white shadow-md">
       <div className="flex items-center space-x-4">
         <img
           src="/src/assets/logo.png"
@@ -16,6 +16,6 @@ function Navbar(){
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;

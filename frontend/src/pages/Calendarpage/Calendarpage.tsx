@@ -1,12 +1,30 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import LeftPanel from "./components/LeftPanel/LeftPanel";
 import RightPanel from "./components/RightPanel/RightPanel";
+import { Entry } from "../../types/Entry";
 
 const CalendarPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [data, setData] = useState<{ [key: string]: Entry[] }>({});
 
   const handleSelectedDateChange = useCallback((date : string) => {
     setSelectedDate(date)
+  },[])
+
+  const handleAddEntry = useCallback((date: string, entry: Entry) => {
+    setData((prev) => ({
+      ...prev,
+      [date]: prev[date] ? [...prev[date], entry] : [entry],
+    }));
+  },[]);
+
+  const getCurrentDate = useMemo(() => {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; 
+  }, []);
+
+  useEffect(() => {
+    setSelectedDate(getCurrentDate)
   },[])
 
   return (
@@ -15,7 +33,11 @@ const CalendarPage: React.FC = () => {
         <LeftPanel onDateSelect={handleSelectedDateChange} />
       </div>
       <div className="w-1/3">
-        <RightPanel selectedDate={selectedDate} />
+        <RightPanel
+          selectedDate={selectedDate}
+          data={data}
+          addEntry={handleAddEntry}
+        />
       </div>
     </div>
   );

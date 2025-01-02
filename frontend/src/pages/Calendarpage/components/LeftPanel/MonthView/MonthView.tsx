@@ -17,7 +17,6 @@ const MonthView: React.FC<MonthViewProps> = ({ onDateSelect, year, month }) => {
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = getDaysInMonth(year, month);
 
-  // Calculate leading blanks to align the first day of the month
   const leadingBlanks = Array(firstDayOfMonth).fill(null);
 
   return (
