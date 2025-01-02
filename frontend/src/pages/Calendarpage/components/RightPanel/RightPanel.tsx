@@ -1,16 +1,17 @@
-import React, { memo, useState } from "react";
+import React, { memo, useMemo } from "react";
 import { Entry, EntryType } from "../../../../types/Entry";
 
 interface RightPanelProps {
   selectedDate: string | null;
   data: { [key: string]: Entry[] }; 
   addEntry: (date: string, entry: Entry) => void;
+  loading: boolean;
 }
 
-const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, data, addEntry }) => {
-  const [type, setType] = useState<EntryType>(EntryType.Income);
-  const [amount, setAmount] = useState<number>(0);
-  const [description, setDescription] = useState("");
+const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, data, addEntry, loading }) => {
+  const [type, setType] = React.useState<EntryType>(EntryType.Income);
+  const [amount, setAmount] = React.useState<number>(0);
+  const [description, setDescription] = React.useState("");
 
   const handleAddEntry = () => {
     if (selectedDate && amount && description) {
@@ -24,10 +25,25 @@ const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, data, addEntry })
     }
   };
 
-  const entries = selectedDate ? data[selectedDate] || [] : [];
-  const totalIncome = entries.filter(e => e.type === EntryType.Income).reduce((sum, e) => sum + e.amount, 0);
-  const totalExpense = entries.filter(e => e.type === EntryType.Expense).reduce((sum, e) => sum + e.amount, 0);
-  const balance = totalIncome - totalExpense;
+  const entryData = useMemo(() => {
+    return selectedDate ? data[selectedDate] : []
+  },[data, selectedDate])
+
+  const totalIncome = useMemo(() => {
+    return entryData ? 
+      entryData.filter(e => e.type === EntryType.Income).reduce((sum, e) => sum + e.amount, 0) 
+      : 0
+  },[entryData])
+
+  const totalExpense = useMemo(() => {
+    return entryData ? 
+      entryData.filter(e => e.type === EntryType.Expense).reduce((sum, e) => sum + e.amount, 0) 
+      : 0
+  },[entryData])
+
+  const balance = useMemo(() => {
+    return totalIncome - totalExpense
+  },[totalExpense, totalIncome])
 
   return (
     <div className="p-4 bg-blue-50 shadow-md h-full">
@@ -85,14 +101,14 @@ const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, data, addEntry })
             {/* Entries */}
             <div>
               <h3 className="text-md font-bold text-blue-600">Entries:</h3>
-              {entries.length ? (
+              {loading  ? (
+                <p className="text-gray-500">Loading entries...</p>
+              ) : entryData && entryData.length ? (
                 <ul className="space-y-2">
-                  {entries.map((entry, index) => (
+                  {entryData.map((entry, index) => (
                     <li
                       key={index}
-                      className={`p-3 rounded shadow ${
-                        entry.type === "Income" ? "bg-green-50" : "bg-red-50"
-                      }`}
+                      className={`p-3 rounded shadow ${entry.type === "Income" ? "bg-green-50" : "bg-red-50"}`}
                     >
                       <p className="font-semibold">{entry.description}</p>
                       <p className="text-sm text-gray-600">

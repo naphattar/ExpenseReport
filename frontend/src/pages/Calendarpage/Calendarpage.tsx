@@ -2,21 +2,23 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import LeftPanel from "./components/LeftPanel/LeftPanel";
 import RightPanel from "./components/RightPanel/RightPanel";
 import { Entry } from "../../types/Entry";
+import useMockEntries from "../../hooks/useMockEntries";
 
 const CalendarPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [data, setData] = useState<{ [key: string]: Entry[] }>({});
+  const [entriesData, setEntriesData] = useState<{ [key: string]: Entry[] }>({});
+  const { data } = useMockEntries(); 
 
-  const handleSelectedDateChange = useCallback((date : string) => {
-    setSelectedDate(date)
-  },[])
+  const handleSelectedDateChange = useCallback((date: string) => {
+    setSelectedDate(date);
+  }, []);
 
   const handleAddEntry = useCallback((date: string, entry: Entry) => {
-    setData((prev) => ({
+    setEntriesData((prev) => ({
       ...prev,
       [date]: prev[date] ? [...prev[date], entry] : [entry],
     }));
-  },[]);
+  }, []);
 
   const getCurrentDate = useMemo(() => {
     const today = new Date();
@@ -24,8 +26,15 @@ const CalendarPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setSelectedDate(getCurrentDate)
-  },[])
+    setSelectedDate(getCurrentDate);
+  }, [getCurrentDate]);
+
+  const entriesForSelectedDate = useMemo(() => {
+    if (selectedDate) {
+      return entriesData[selectedDate] || data[selectedDate] || []; 
+    }
+    return [];
+  }, [selectedDate, entriesData, data]);
 
   return (
     <div className="flex h-screen w-screen">
@@ -38,7 +47,7 @@ const CalendarPage: React.FC = () => {
       <div className="w-1/3">
         <RightPanel
           selectedDate={selectedDate}
-          data={data}
+          data={data} 
           addEntry={handleAddEntry}
         />
       </div>
