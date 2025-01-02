@@ -30,7 +30,10 @@ const CalendarPage: React.FC = () => {
   return (
     <div className="flex h-screen w-screen">
       <div className="w-2/3 border-r overflow-y-auto">
-        <LeftPanel onDateSelect={handleSelectedDateChange} />
+        <LeftPanel 
+          onDateSelect={handleSelectedDateChange} 
+          selectedDate={selectedDate}
+        />
       </div>
       <div className="w-1/3">
         <RightPanel

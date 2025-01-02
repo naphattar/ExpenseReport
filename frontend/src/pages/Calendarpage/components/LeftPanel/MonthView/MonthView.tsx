@@ -5,9 +5,10 @@ interface MonthViewProps {
   onDateSelect: (date: string) => void;
   year: number;
   month: number;
+  selectedDate: string | null;
 }
 
-const MonthView: React.FC<MonthViewProps> = ({ onDateSelect, year, month }) => {
+const MonthView: React.FC<MonthViewProps> = ({ onDateSelect, year, month , selectedDate }) => {
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -49,6 +50,7 @@ const MonthView: React.FC<MonthViewProps> = ({ onDateSelect, year, month }) => {
           <CalendarCell
             key={`${year}-${month}-${day}`}
             onDateSelect={onDateSelect}
+            selectedDate={selectedDate}
             day={day}
             month={month}
             year={year}

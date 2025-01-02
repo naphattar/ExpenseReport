@@ -3,9 +3,10 @@ import MonthView from "./MonthView/MonthView";
 
 interface LeftPanelProps {
   onDateSelect: (date: string) => void;
+  selectedDate: string | null;
 }
 
-const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect }) => {
+const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect ,selectedDate}) => {
   const containerRef = useRef<HTMLDivElement>(null); 
 
   const generateMonths = () => {
@@ -49,6 +50,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect }) => {
         <MonthView
           key={id}
           onDateSelect={onDateSelect}
+          selectedDate={selectedDate}
           year={year}
           month={month}
         />
