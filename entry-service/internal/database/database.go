@@ -1,30 +1,35 @@
 package database
 
 import (
-	"fmt"
+	"entry-service/internal/config"
+	"entry-service/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"entry-service/internal/config"
+	"log"
 )
 
 var DB *gorm.DB
 
 func Connect() {
-
 	config.LoadConfig()
 
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		config.AppConfig.DatabaseHost,
-		config.AppConfig.DatabaseUser,
-		config.AppConfig.DatabasePassword,
-		config.AppConfig.DatabaseName,
-		config.AppConfig.DatabasePort,
-	)
+	dsn := "host=" + config.AppConfig.DatabaseHost +
+		" user=" + config.AppConfig.DatabaseUser +
+		" password=" + config.AppConfig.DatabasePassword +
+		" dbname=" + config.AppConfig.DatabaseName +
+		" port=" + config.AppConfig.DatabasePort +
+		" sslmode=disable"
 
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(fmt.Sprintf("Failed to connect to database: %v", err))
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
+
+	err = database.AutoMigrate(&models.Entry{})
+	if err != nil {
+		log.Fatalf("Failed to migrate database: %v", err)
+	}
+
+	log.Println("Database connected and migrated successfully.")
 	DB = database
 }
