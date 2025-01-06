@@ -18,6 +18,7 @@ var AppConfig Config
 
 func LoadConfig() {
     viper.SetConfigFile(".env")
+    viper.SetConfigType("env")
     viper.AutomaticEnv()
 
     if err := viper.ReadInConfig(); err != nil {

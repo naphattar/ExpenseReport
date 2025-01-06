@@ -1,0 +1,42 @@
+services:
+  entry-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: entry-service
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=${PORT}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+    volumes:
+      - .env:/app/.env 
+    networks:
+      - backend
+    depends_on:
+      - entry-service-db
+
+  entry-service-db:
+    container_name: entry-service-db
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: Calentar
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_data: 
