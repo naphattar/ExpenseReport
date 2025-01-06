@@ -39,7 +39,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect ,selectedDate}) => {
 
       if (currentMonthIndex !== -1) {
         const currentMonthElement = containerRef.current.children[currentMonthIndex] as HTMLElement;
-        currentMonthElement?.scrollIntoView({ behavior: "smooth", block: "start" });
+        currentMonthElement?.scrollIntoView({ behavior: "smooth", block : "center" });
       }
     }
   }, [months]);
