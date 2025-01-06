@@ -15,6 +15,11 @@ func CreateEntryHandler(c *gin.Context) {
 		return
 	}
 
+	if err := entry.Validate(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	newEntry, err := services.CreateEntry(&entry)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -59,6 +64,11 @@ func UpdateEntryHandler(c *gin.Context) {
 
 	var updatedEntry models.Entry
 	if err := c.ShouldBindJSON(&updatedEntry); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := entry.Validate(); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
