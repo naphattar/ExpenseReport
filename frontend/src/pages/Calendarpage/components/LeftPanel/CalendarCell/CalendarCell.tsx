@@ -34,7 +34,7 @@ const CalendarCell: React.FC<CalendarCellProps> = ({
   return (
     <div
       onClick={handleCalendarCellClick}
-      className={`p-6 border rounded text-center cursor-pointer flex flex-col justify-between shadow-md
+      className={`p-3 border rounded text-center cursor-pointer flex flex-col justify-between shadow-md
         ${isToday ? "bg-blue-100" : "bg-white"}
         ${isSelected && !isToday ? "bg-blue-200 border-blue-400" : ""}
         hover:bg-blue-100`}
