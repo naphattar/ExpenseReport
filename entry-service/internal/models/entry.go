@@ -9,3 +9,10 @@ type Entry struct {
 	Description string  `json:"description" gorm:"type:text"`
 	UserID      string  `json:"userId" gorm:"type:varchar(100);not null"`
 }
+
+func (e *Entry) Validate() error {
+	if e.Type != "Income" && e.Type != "Expense" {
+		return errors.New("type must be 'Income' or 'Expense'")
+	}
+	return nil
+}
