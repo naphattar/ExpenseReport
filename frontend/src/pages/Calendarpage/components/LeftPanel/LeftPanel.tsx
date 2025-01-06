@@ -1,23 +1,26 @@
-import React, { useMemo } from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
 import MonthView from "./MonthView/MonthView";
 
 interface LeftPanelProps {
   onDateSelect: (date: string) => void;
+  selectedDate: string | null;
 }
 
-const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect }) => {
+const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect ,selectedDate}) => {
+  const containerRef = useRef<HTMLDivElement>(null); 
 
   const generateMonths = () => {
-    const months: { year: number; month: number }[] = [];
+    const months: { year: number; month: number; id: string }[] = [];
     const currentDate = new Date();
 
-    for (let i = 0; i < 12; i++) {
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth() + i;
-      months.push({
-        year: year + Math.floor(month / 12),
-        month: month % 12,
-      });
+    const startYear = currentDate.getFullYear() - 1;
+    const startMonth = 0; 
+
+    for (let i = 0; i < 24; i++) {
+      const year = startYear + Math.floor((startMonth + i) / 12);
+      const month = (startMonth + i) % 12;
+      const id = `${year}-${month}`;
+      months.push({ year, month, id });
     }
 
     return months;
@@ -27,11 +30,27 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect }) => {
     return generateMonths();
   },[])
 
+  useEffect(() => {
+    if (containerRef.current) {
+      const currentDate = new Date();
+      const currentMonthIndex = months.findIndex(
+        (m) => m.year === currentDate.getFullYear() && m.month === currentDate.getMonth()
+      );
+
+      if (currentMonthIndex !== -1) {
+        const currentMonthElement = containerRef.current.children[currentMonthIndex] as HTMLElement;
+        currentMonthElement?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, [months]);
+
   return (
-    <div className="p-4 h-full overflow-y-auto">
-      {months.map(({ year, month }) => (
+    <div ref={containerRef} className="p-4 h-full overflow-y-auto">
+      {months.map(({ year, month, id }) => (
         <MonthView
+          key={id}
           onDateSelect={onDateSelect}
+          selectedDate={selectedDate}
           year={year}
           month={month}
         />
@@ -40,4 +59,4 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ onDateSelect }) => {
   );
 };
 
-export default LeftPanel;
+export default memo(LeftPanel);

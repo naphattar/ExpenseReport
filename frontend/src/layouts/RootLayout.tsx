@@ -5,7 +5,9 @@ const RootLayout = () => {
   return (
     <div className="min-h-screen scroll-smooth antialiased">
         <Navbar/>
-        <Outlet />
+        <div className="pt-20">
+          <Outlet/>
+        </div>
     </div>
   );
 };
