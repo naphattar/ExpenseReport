@@ -68,7 +68,7 @@ func UpdateEntryHandler(c *gin.Context) {
 		return
 	}
 
-	if err := entry.Validate(); err != nil {
+	if err := updatedEntry.Validate(); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

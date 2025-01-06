@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"errors"
+)
+	
 
 type Entry struct {
 	gorm.Model
