@@ -12,6 +12,8 @@ type Config struct {
 	USER_SERVICE_URL string
 }
 
+var AppConfig Config
+
 func LoadConfig() {
 	err := godotenv.Load()
 	if err != nil {
