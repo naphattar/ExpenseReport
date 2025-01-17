@@ -27,15 +27,24 @@ func GetEntry(id uint) (*models.Entry, error) {
 	return &entry, nil
 }
 
-func GetAllEntries() ([]models.Entry, error) {
-	var entries []models.Entry
-	result := database.DB.Find(&entries)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return entries, nil
-}
+func GetAllEntries(userId, entryType string) ([]models.Entry, error) {
+    var entries []models.Entry
 
+    query := map[string]interface{}{}
+    if userId != "" {
+        query["user_id"] = userId
+    }
+    if entryType != "" {
+        query["type"] = entryType
+    }
+
+    result := database.DB.Where(query).Find(&entries)
+    if result.Error != nil {
+        return nil, result.Error
+    }
+
+    return entries, nil
+}
 func UpdateEntry(id uint, updatedEntry *models.Entry) (*models.Entry, error) {
 	var entry models.Entry
 	result := database.DB.First(&entry, id)
