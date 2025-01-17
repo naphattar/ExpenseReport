@@ -9,12 +9,14 @@ import (
 
 type Claims struct {
 	Username string `json:"username"`
+	UserId string `json:"userid"`
 	jwt.StandardClaims
 }
 
-func GenerateToken(username string) (string, error) {
+func GenerateToken(username string , userId string) (string, error) {
 	claims := Claims{
 		Username: username,
+		UserId: userId,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
 		},

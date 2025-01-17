@@ -55,13 +55,14 @@ func LoginHandler(c *gin.Context) {
 
 func GetProfileHandler(c *gin.Context) {
 
-	username, exists := c.Get("username")
-	if !exists {
+	username, usernameExists := c.Get("username")
+	userid, useridExists := c.Get("userid")
+	if (!usernameExists || !useridExists) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Profile data", "username": username})
+	c.JSON(http.StatusOK, gin.H{"message": "Profile data", "username": username , "userid": userid})
 }
 
 func LogoutHandler(c *gin.Context) {
