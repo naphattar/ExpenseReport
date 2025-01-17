@@ -23,6 +23,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		c.Set("username", claims.Username)
+		c.Set("userid",claims.UserId)
 		c.Next()
 	}
 }
