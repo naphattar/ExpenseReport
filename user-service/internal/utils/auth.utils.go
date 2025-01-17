@@ -2,7 +2,7 @@ package utils
 
 import (
 	"time"
-
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"user-service/internal/config"
 )

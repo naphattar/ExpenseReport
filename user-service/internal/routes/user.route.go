@@ -2,7 +2,7 @@ package routes
 
 import (
 	"user-service/internal/controllers"
-
+	"user-service/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
