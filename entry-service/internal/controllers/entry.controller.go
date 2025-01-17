@@ -46,13 +46,16 @@ func GetEntryHandler(c *gin.Context) {
 }
 
 func GetAllEntriesHandler(c *gin.Context) {
-	entries, err := services.GetAllEntries()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+    userId := c.Query("userId") 
+    entryType := c.Query("type") 
 
-	c.JSON(http.StatusOK, entries)
+    entries, err := services.GetAllEntries(userId, entryType)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, entries)
 }
 
 func UpdateEntryHandler(c *gin.Context) {
