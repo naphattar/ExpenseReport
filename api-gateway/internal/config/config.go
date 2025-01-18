@@ -8,8 +8,9 @@ import(
 
 type Config struct {
 	Port     string
-	ENTRY_SERVICE_URL string
-	USER_SERVICE_URL string
+	JWTSecret string
+	EntryServiceURL string
+	UserServiceURL string
 }
 
 var AppConfig Config
@@ -22,7 +23,8 @@ func LoadConfig() {
 
 	AppConfig = Config{
 		Port:     os.Getenv("PORT"),
-		ENTRY_SERVICE_URL: os.Getenv("ENTRY_SERVICE_URL"),
-		USER_SERVICE_URL: os.Getenv("USER_SERVICE_URL"),
+		JWTSecret: os.Getenv("JWT_SECRET")
+		EntryServiceURL: os.Getenv("ENTRY_SERVICE_URL"),
+		UserServiceURL: os.Getenv("USER_SERVICE_URL"),
 	}
 }
