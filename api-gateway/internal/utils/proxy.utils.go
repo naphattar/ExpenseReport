@@ -4,11 +4,12 @@ import (
 	"bytes"
 	"io"
 	"net/http"
-
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
-func forwardRequest(c *gin.Context, method, url string) (*http.Response, error) {
+func ForwardRequest(c *gin.Context, method, url string) (*http.Response, error) {
+	fmt.Println("Forwarding request to URL:", url)
 	var bodyBytes []byte
 	if c.Request.Body != nil {
 		bodyBytes, _ = io.ReadAll(c.Request.Body)

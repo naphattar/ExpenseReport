@@ -23,7 +23,7 @@ func LoadConfig() {
 
 	AppConfig = Config{
 		Port:     os.Getenv("PORT"),
-		JWTSecret: os.Getenv("JWT_SECRET")
+		JWTSecret: os.Getenv("JWT_SECRET"),
 		EntryServiceURL: os.Getenv("ENTRY_SERVICE_URL"),
 		UserServiceURL: os.Getenv("USER_SERVICE_URL"),
 	}
