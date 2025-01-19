@@ -43,3 +43,22 @@ func LoginHandler(c *gin.Context){
 	}
 	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), bodyBytes)
 }
+
+func LogoutHandler(c *gin.Context){
+	logoutEndpoint := config.AppConfig.UserServiceURL + "/user/logout"
+	resp, err := utils.ForwardRequest(c, http.MethodPost, logoutEndpoint)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	defer resp.Body.Close() 
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read response body"})
+		return
+	}
+	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), bodyBytes)
+}
+
+

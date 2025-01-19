@@ -10,9 +10,6 @@ func RegisterUserRoutes(router *gin.Engine) {
 	{
 		userRoutes.POST("/register",controllers.RegisterHandler)
 		userRoutes.POST("/login",controllers.LoginHandler)
-		// entryRoutes.GET("", controllers.GetAllEntriesHandler)
-		// entryRoutes.GET("/:id", controllers.GetEntryHandler)
-		// entryRoutes.PUT("/:id", controllers.UpdateEntryHandler)
-		// entryRoutes.DELETE("/:id", controllers.DeleteEntryHandler)
+		userRoutes.POST("/logout",controllers.LogoutHandler)
 	}
 }
