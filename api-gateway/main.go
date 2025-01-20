@@ -1,21 +1,23 @@
 package main
 
-import(
-    "log"
-    "api-gateway/internal/config"
-    "api-gateway/internal/routes"
-    "github.com/gin-gonic/gin"
+import (
+	"api-gateway/internal/config"
+	"api-gateway/internal/routes"
+	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
-func main(){
-    config.LoadConfig()
+func main() {
+	config.LoadConfig()
 
-    router := gin.Default()
+	router := gin.Default()
 
-    routes.RegisterUserRoutes(router)
+	routes.RegisterUserRoutes(router)
+	routes.RegisterEntryRoutes(router)
 
-    log.Printf("API Gateway is running on port %s" , config.AppConfig.Port)
-    if err := router.Run(":" + config.AppConfig.Port); err != nil{
-        log.Fatalf("Failed to start server: %v",err)
-    }
+	log.Printf("API Gateway is running on port %s", config.AppConfig.Port)
+	if err := router.Run(":" + config.AppConfig.Port); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }
