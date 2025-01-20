@@ -41,3 +41,21 @@ func GetAllEntriesHandler(c *gin.Context) {
 
 	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), bodyBytes)
 }
+
+func CreateEntryHandler(c *gin.Context) {
+	createEntryEndpoint := config.AppConfig.EntryServiceURL + "/entries"
+
+	resp, err := utils.ForwardRequestWithCredentials(c, http.MethodPost, createEntryEndpoint)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read response body"})
+		return
+	}
+
+	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), bodyBytes)
+}

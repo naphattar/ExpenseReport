@@ -12,5 +12,6 @@ func RegisterEntryRoutes(router *gin.Engine) {
 	{
 		entryRoutes.Use(middleware.AuthMiddleware())
 		entryRoutes.GET("/", controllers.GetAllEntriesHandler)
+		entryRoutes.POST("/", controllers.CreateEntryHandler)
 	}
 }
