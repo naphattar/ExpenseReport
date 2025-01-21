@@ -17,21 +17,15 @@ export default async function useLogin(
         }),
     });
     if (response.ok) {
-        // Login successful
-        console.log("Login successful");
         toast.success("Login successful");
         const data = await response.json()
         console.log('data',data,response)
         return data;
 
     } else {
-        // Login failed
         toast('Incorrect username/password\nor Account does not exist', {
             icon: '⚠️',
         });
         console.error("Login failed");
-    }
-
-
-    
+    }  
 }
