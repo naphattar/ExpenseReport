@@ -4,7 +4,9 @@ import (
 	"api-gateway/internal/config"
 	"api-gateway/internal/routes"
 	"log"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +14,16 @@ func main() {
 	config.LoadConfig()
 
 	router := gin.Default()
+
+	coreConfig := cors.DefaultConfig()
+	coreConfig.AllowAllOrigins = true
+	coreConfig.AllowMethods = []string{"POST", "GET", "PUT", "OPTIONS"}
+	coreConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization", "Accept", "User-Agent", "Cache-Control", "Pragma"}
+	coreConfig.ExposeHeaders = []string{"Content-Length"}
+	coreConfig.AllowCredentials = true
+	coreConfig.MaxAge = 12 * time.Hour
+
+	router.Use(cors.New(coreConfig))
 
 	routes.RegisterUserRoutes(router)
 	routes.RegisterEntryRoutes(router)
