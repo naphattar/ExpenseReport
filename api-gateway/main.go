@@ -16,9 +16,17 @@ func main() {
 	router := gin.Default()
 
 	coreConfig := cors.DefaultConfig()
-	coreConfig.AllowAllOrigins = true
+	coreConfig.AllowOrigins = []string{config.AppConfig.FrontendURL}
 	coreConfig.AllowMethods = []string{"POST", "GET", "PUT", "OPTIONS"}
-	coreConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization", "Accept", "User-Agent", "Cache-Control", "Pragma"}
+	coreConfig.AllowHeaders = []string{
+		"Origin",
+		"Content-Type",
+		"Authorization",
+		"Accept",
+		"User-Agent",
+		"Cache-Control",
+		"Pragma",
+	}
 	coreConfig.ExposeHeaders = []string{"Content-Length"}
 	coreConfig.AllowCredentials = true
 	coreConfig.MaxAge = 12 * time.Hour

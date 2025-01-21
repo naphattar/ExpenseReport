@@ -1,31 +1,36 @@
 import toast from "react-hot-toast";
 
-const API_URL = "http://localhost:9000"
+const API_URL = "http://localhost:9000";
 
-export default async function useLogin(
-    username: string,
-    password: string
-) {
-    const response = await fetch(API_URL + "/user/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-        }),
-    });
-    if (response.ok) {
-        toast.success("Login successful");
-        const data = await response.json()
-        console.log('data',data,response)
-        return data;
-
-    } else {
-        toast('Incorrect username/password\nor Account does not exist', {
-            icon: '⚠️',
+export default async function useLogin(username: string, password: string) {
+    try {
+        const response = await fetch(API_URL + "/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
         });
-        console.error("Login failed");
-    }  
+
+        if (response.ok) {
+            toast.success("Login successful");
+
+            const data = await response.json();
+
+            return data;
+
+        } else {
+            toast('Incorrect username/password\nor Account does not exist', {
+                icon: '⚠️',
+            });
+            console.error("Login failed");
+        }
+    } catch (error) {
+        console.error("An error occurred during login:", error);
+        toast.error("An error occurred during login");
+    }
 }
