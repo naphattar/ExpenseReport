@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import LoginFormInput from "../LoginFormInput/LoginFormInput";
 import LoginFormButton from "../LoginFormButton/LoginFormButton";
+import useLogin from "../../../../hooks/useLogin";
 
 function LoginForm(){
     const [username, setUsername] = useState<string>("");
@@ -14,8 +15,11 @@ function LoginForm(){
         setPassword(password)
     },[])
 
-    const handleLoginSubmit = () => {
-
+    const handleLoginSubmit = async() => {
+      await useLogin(
+        username,
+        password
+      )
     }
 
     return(
