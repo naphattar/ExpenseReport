@@ -4,6 +4,7 @@ import LoginFormButton from "../LoginFormButton/LoginFormButton";
 import useLogin from "../../../../hooks/useLogin";
 
 function LoginForm(){
+    const login = useLogin();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -16,7 +17,7 @@ function LoginForm(){
     },[])
 
     const handleLoginSubmit = async() => {
-      await useLogin(
+      await login(
         username,
         password
       )
