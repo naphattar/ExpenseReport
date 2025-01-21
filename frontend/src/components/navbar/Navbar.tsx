@@ -7,7 +7,7 @@ function Navbar() {
           alt="Logo"
           className="h-8 w-8"
         />
-        <span className="text-lg font-semibold">CALENTAR</span>
+        <span className="text-lg font-semibold">Expense Report</span>
       </div>
       <div className="mr-6 sm:mr-2">
         <button className="px-4 py-2 bg-white text-blue-600 font-semibold rounded hover:bg-gray-100">
