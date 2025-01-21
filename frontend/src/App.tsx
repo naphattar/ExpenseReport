@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorComponent message={"error occur"} />,
     children: [
       {
-        path: "/",
+        path: "/calendar",
         element: <CalendarPage />,
       }
     ],
