@@ -7,5 +7,6 @@ export interface Entry {
     type: EntryType;
     amount: number;
     description: string;
+    date : string;
 }
   

@@ -2,39 +2,55 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import LeftPanel from "./components/LeftPanel/LeftPanel";
 import RightPanel from "./components/RightPanel/RightPanel";
 import { Entry } from "../../types/Entry";
-import useMockEntries from "../../hooks/useMockEntries";
+import useGetEntries from "../../hooks/useGetEntries";
 
 const CalendarPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [entriesData, setEntriesData] = useState<{ [key: string]: Entry[] }>({});
-  const { data , loading } = useMockEntries(); 
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const getEntries = useGetEntries();
 
   const handleSelectedDateChange = useCallback((date: string) => {
     setSelectedDate(date);
   }, []);
 
-  const handleAddEntry = useCallback((date: string, entry: Entry) => {
-    setEntriesData((prev) => ({
-      ...prev,
-      [date]: prev[date] ? [...prev[date], entry] : [entry],
-    }));
-  }, []);
 
   const getCurrentDate = useMemo(() => {
     const today = new Date();
     return today.toISOString().split("T")[0]; 
   }, []);
 
+  const fetchEntries = useCallback(async () => {
+    if (entries.length > 0) return; 
+    setLoading(true);
+    try {
+      const fetchedEntries = await getEntries();
+      if (fetchedEntries) {
+        setEntries(fetchedEntries);
+      }
+    } catch (error) {
+      console.error("Error fetching entries:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [entries.length, getEntries]);
+
   useEffect(() => {
     setSelectedDate(getCurrentDate);
   }, [getCurrentDate]);
 
-  const entriesForSelectedDate = useMemo(() => {
-    if (selectedDate) {
-      return entriesData[selectedDate] || data[selectedDate] || []; 
-    }
-    return [];
-  }, [selectedDate, entriesData, data]);
+  useEffect(() => {
+    fetchEntries();
+  },[fetchEntries])
+
+  const filteredEntries = useMemo(() => {
+    if (!selectedDate) return [];
+    return entries.filter((entry) =>
+      new Date(entry.date).toISOString().split("T")[0] === selectedDate
+    );
+  }, [entries, selectedDate]);
+
+  console.log('selected',filteredEntries,entries,selectedDate)
 
   return (
     <div className="flex h-screen w-screen">
@@ -47,9 +63,8 @@ const CalendarPage: React.FC = () => {
       <div className="w-1/3">
         <RightPanel
           selectedDate={selectedDate}
-          data={data}
-          addEntry={handleAddEntry} 
-          loading={loading}       
+          entryData={filteredEntries}   
+          loading={loading}  
         />
       </div>
     </div>
