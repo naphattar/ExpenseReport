@@ -3,31 +3,14 @@ import { Entry, EntryType } from "../../../../types/Entry";
 
 interface RightPanelProps {
   selectedDate: string | null;
-  data: { [key: string]: Entry[] }; 
-  addEntry: (date: string, entry: Entry) => void;
+  entryData: Entry[]; 
   loading: boolean;
 }
 
-const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, data, addEntry, loading }) => {
+const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, entryData, loading }) => {
   const [type, setType] = React.useState<EntryType>(EntryType.Income);
   const [amount, setAmount] = React.useState<number>(0);
   const [description, setDescription] = React.useState("");
-
-  const handleAddEntry = () => {
-    if (selectedDate && amount && description) {
-      addEntry(selectedDate, {
-        type,
-        amount: Number(amount),
-        description,
-      });
-      setAmount(0);
-      setDescription("");
-    }
-  };
-
-  const entryData = useMemo(() => {
-    return selectedDate ? data[selectedDate] : []
-  },[data, selectedDate])
 
   const totalIncome = useMemo(() => {
     return entryData ? 
@@ -90,7 +73,6 @@ const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, data, addEntry, l
                 />
                 <button
                   className="bg-blue-600 text-white px-4 py-2 rounded"
-                  onClick={handleAddEntry}
                   disabled={!amount || !description}
                 >
                   Add
