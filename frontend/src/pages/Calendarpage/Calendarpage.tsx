@@ -50,8 +50,6 @@ const CalendarPage: React.FC = () => {
     );
   }, [entries, selectedDate]);
 
-  console.log('selected',filteredEntries,entries,selectedDate)
-
   return (
     <div className="flex h-screen w-screen">
       <div className="w-2/3 border-r overflow-y-auto">
