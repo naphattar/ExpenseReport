@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback,useState } from "react";
 import { User } from "../types/User";
 import useGetProfile from "../hooks/useGetProfile";
 
@@ -17,37 +17,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState<boolean>(true);
   const getProfile = useGetProfile();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const profile = await getProfile();
-        if (profile) {
-          const user : User = {
-            userid : profile.userid,
-            username : profile.username
-          }
-          setUser(user);
-          setIsAuthenticated(true);
-        } else {
-          setUser(null);
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [getProfile]);
-
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     setLoading(true);
     try {
       const profile = await getProfile();
       if (profile) {
-        setUser(profile);
+        const user: User = {
+          userid: profile.userid,
+          username: profile.username,
+        };
+        setUser(user);
         setIsAuthenticated(true);
       } else {
         setUser(null);
@@ -58,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } finally {
       setLoading(false);
     }
-  };
+  }, [getProfile]);
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated, loading, fetchUserProfile }}>
