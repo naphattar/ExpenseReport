@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:9000";
 
-export default function useLogin() {
+export default function useLogout() {
     const navigate = useNavigate(); 
 
     const logout = async () => {

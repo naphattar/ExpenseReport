@@ -2,8 +2,10 @@ import { useCallback, useState } from "react";
 import LoginFormInput from "../LoginFormInput/LoginFormInput";
 import LoginFormButton from "../LoginFormButton/LoginFormButton";
 import useLogin from "../../../../hooks/useLogin";
+import { useAuth } from "../../../../hooks/useAuth";
 
 function LoginForm(){
+  const { fetchUserProfile } = useAuth();
     const login = useLogin();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -21,6 +23,7 @@ function LoginForm(){
         username,
         password
       )
+      fetchUserProfile();
     }
 
     return(
