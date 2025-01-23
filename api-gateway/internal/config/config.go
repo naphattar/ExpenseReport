@@ -1,16 +1,18 @@
 package config
 
-import(
+import (
 	"log"
 	"os"
+
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Port     string
-	JWTSecret string
+	Port            string
+	JWTSecret       string
 	EntryServiceURL string
-	UserServiceURL string
+	UserServiceURL  string
+	FrontendURL     string
 }
 
 var AppConfig Config
@@ -22,9 +24,10 @@ func LoadConfig() {
 	}
 
 	AppConfig = Config{
-		Port:     os.Getenv("PORT"),
-		JWTSecret: os.Getenv("JWT_SECRET"),
+		Port:            os.Getenv("PORT"),
+		JWTSecret:       os.Getenv("JWT_SECRET"),
 		EntryServiceURL: os.Getenv("ENTRY_SERVICE_URL"),
-		UserServiceURL: os.Getenv("USER_SERVICE_URL"),
+		UserServiceURL:  os.Getenv("USER_SERVICE_URL"),
+		FrontendURL:     os.Getenv("FRONTEND_URL"),
 	}
 }
