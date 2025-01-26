@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 interface SummarizePanelProps{
     totalIncome : number;
@@ -29,4 +29,4 @@ const SummarizePanel : React.FC<SummarizePanelProps> = ({
     );
 }
 
-export default SummarizePanel;
+export default memo(SummarizePanel);

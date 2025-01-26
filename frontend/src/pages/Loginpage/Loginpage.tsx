@@ -1,3 +1,4 @@
+import { memo } from "react";
 import LoginForm from "./components/LoginForm/LoginForm";
 
 const LoginPage: React.FC = () => {
@@ -8,4 +9,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default memo(LoginPage);

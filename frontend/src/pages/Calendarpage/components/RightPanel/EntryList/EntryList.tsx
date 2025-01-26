@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Entry } from "../../../../../types/Entry";
 
 interface EntryListProps{
@@ -49,4 +50,4 @@ const EntryList : React.FC<EntryListProps>  = ({
     );
 }
 
-export default EntryList;
+export default memo(EntryList);

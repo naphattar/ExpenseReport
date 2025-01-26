@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { EntryType } from "../../../../../types/Entry"
 
 interface CreateEntryPanelProps{
@@ -54,4 +55,4 @@ const CreateEntryPanel : React.FC<CreateEntryPanelProps> = ({
     )
 }
 
-export default CreateEntryPanel;
+export default memo(CreateEntryPanel);

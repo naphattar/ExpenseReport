@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { Entry, EntryType } from "../../../../../../types/Entry";
 
 interface EntrySpanProps{
@@ -41,4 +41,4 @@ const EntrySpan : React.FC<EntrySpanProps> = ({
     );
 };
 
-export default EntrySpan;
+export default memo(EntrySpan);
