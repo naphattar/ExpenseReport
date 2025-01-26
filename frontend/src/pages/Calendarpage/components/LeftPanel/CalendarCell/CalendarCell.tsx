@@ -15,16 +15,10 @@ const CalendarCell: React.FC<CalendarCellProps> = ({
   year,
   selectedDate,
 }) => {
-  const today = new Date();
-  const todayString = `${today.getFullYear()}-${(today.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}-${today.getDate().toString().padStart(2, "0")}`;
-
   const cellDateString = `${year}-${(month + 1)
     .toString()
     .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
 
-  const isToday = todayString === cellDateString;
   const isSelected = selectedDate === cellDateString;
 
   const handleCalendarCellClick = useCallback(() => {
@@ -35,8 +29,7 @@ const CalendarCell: React.FC<CalendarCellProps> = ({
     <div
       onClick={handleCalendarCellClick}
       className={`p-3 border rounded text-center cursor-pointer flex flex-col justify-between shadow-md
-        ${isToday ? "bg-blue-100" : "bg-white"}
-        ${isSelected && !isToday ? "bg-blue-200 border-blue-400" : ""}
+        ${isSelected ? "bg-blue-100" : "bg-white"}
         hover:bg-blue-100`}
     >
       <div className="text-lg font-bold">{day}</div>

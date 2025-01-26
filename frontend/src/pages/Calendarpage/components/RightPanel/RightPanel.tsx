@@ -33,8 +33,6 @@ const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, entryData, loadin
 
   return (
     <div className="p-6 bg-blue-50 shadow-md h-full flex flex-col space-y-6">
-      <h2 className="text-2xl font-bold text-blue-700 mb-2">Financial Overview</h2>
-
       {selectedDate ? (
         <div className="flex-grow flex flex-col space-y-6">
           <p className="text-lg font-semibold text-gray-700">
