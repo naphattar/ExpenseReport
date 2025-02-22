@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface LoginFormButtonProps{
     handleLoginFormButtonSubmit : () => void;
 }
@@ -14,4 +16,4 @@ function LoginFormButton(props : LoginFormButtonProps){
     )
 }
 
-export default LoginFormButton
+export default memo(LoginFormButton);

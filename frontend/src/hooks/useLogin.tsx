@@ -25,7 +25,7 @@ export default function useLogin() {
 
                 const data = await response.json();
 
-                navigate("/calendar");
+                navigate("/");
 
                 return data;
             } else {

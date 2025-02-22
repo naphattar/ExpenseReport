@@ -1,3 +1,5 @@
+import { memo } from "react"
+
 interface LoginFormInputProps{
     inputName : string
     inputFormText : string
@@ -30,4 +32,4 @@ function LoginFormInput(props : LoginFormInputProps){
     )
 }
 
-export default LoginFormInput;
+export default memo(LoginFormInput);

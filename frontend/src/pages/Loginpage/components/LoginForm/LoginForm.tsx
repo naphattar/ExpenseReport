@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import LoginFormInput from "../LoginFormInput/LoginFormInput";
 import LoginFormButton from "../LoginFormButton/LoginFormButton";
 import useLogin from "../../../../hooks/useLogin";
@@ -57,4 +57,4 @@ function LoginForm(){
       </div>
     )
 }
-export default LoginForm;
+export default memo(LoginForm);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import useLogout from "../../hooks/useLogout";
@@ -46,4 +47,4 @@ function Navbar() {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);
