@@ -1,0 +1,100 @@
+services:
+  entry-service:
+    build:
+      context: ./entry-service
+      dockerfile: Dockerfile
+    container_name: entry-service
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - DATABASE_HOST=entry-service-db
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=root
+      - DATABASE_NAME=Calentar
+      - DATABASE_PORT=5432
+    volumes:
+      - ./entry-service/.env:/app/.env 
+    networks:
+      - calentar
+    depends_on:
+      - entry-service-db
+
+  entry-service-db:
+    container_name: entry-service-db
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: Calentar
+    networks:
+      - calentar
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "8082:8082"
+    environment:
+      - PORT=8082
+      - MONGO_HOST=user-service-db
+      - MONGO_PORT=27017
+      - MONGO_USER=admin
+      - MONGO_PASSWORD=root
+      - MONGO_DB=users
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - ./user-service/.env:/app/.env
+    networks:
+      - calentar
+    depends_on:
+      - user-service-db  
+
+  user-service-db:
+    image: mongo:latest
+    container_name: user-service-db
+    ports:
+      - "27018:27017"  
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: users
+    networks:
+      - calentar
+    volumes:
+      - mongo_data:/data/db 
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - JWT_SECRET=${JWT_SECRET}
+      - ENTRY_SERVICE_URL=http://entry-service:8081
+      - USER_SERVICE_URL=http://user-service:8082
+      - FRONTEND_URL=http://localhost:5173
+    volumes:
+      - ./api-gateway/.env:/app/.env 
+    networks:
+      - calentar
+    depends_on:
+      - entry-service
+      - user-service
+
+networks:
+  calentar:
+    driver: bridge
+
+volumes:
+  postgres_data: 
+  mongo_data:
