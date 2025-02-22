@@ -82,7 +82,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - ENTRY_SERVICE_URL=http://entry-service:8081
       - USER_SERVICE_URL=http://user-service:8082
-      - FRONTEND_URL=http://localhost:5173
+      - FRONTEND_URL=http://frontend:5173
     volumes:
       - ./api-gateway/.env:/app/.env 
     networks:
@@ -90,6 +90,19 @@ services:
     depends_on:
       - entry-service
       - user-service
+  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "5173:5173"  
+    volumes:
+      - ./frontend:/app 
+      - /app/node_modules  
+    networks:
+      - calentar
 
 networks:
   calentar:
