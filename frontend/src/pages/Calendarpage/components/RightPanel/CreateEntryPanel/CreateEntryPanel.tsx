@@ -1,7 +1,9 @@
-import { memo } from "react";
+import { memo} from "react";
 import { EntryType } from "../../../../../types/Entry"
+import useCreateEntry from "../../../../../hooks/useCreateEntry";
 
 interface CreateEntryPanelProps{
+    selectedDate: string | null;
     type : EntryType;
     setType : (type: EntryType) => void;
     amount : number;
@@ -11,6 +13,7 @@ interface CreateEntryPanelProps{
 }
 
 const CreateEntryPanel : React.FC<CreateEntryPanelProps> = ({
+    selectedDate,
     type,
     setType,
     amount,
@@ -18,6 +21,15 @@ const CreateEntryPanel : React.FC<CreateEntryPanelProps> = ({
     description,
     setDescription
 }) => {
+    const createEntry = useCreateEntry()
+    const handleCreateEntryClick = async() => {
+      await createEntry(
+        type,
+        amount,
+        description,
+        selectedDate
+      )
+    }
     return(
         <div className="p-6 bg-white rounded-lg shadow-md border">
             <h3 className="text-lg font-bold text-gray-800 mb-2">Add Entry</h3>
@@ -47,6 +59,7 @@ const CreateEntryPanel : React.FC<CreateEntryPanelProps> = ({
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 disabled:bg-gray-300"
                 disabled={!amount || !description}
+                onClick={handleCreateEntryClick}
               >
                 Add
               </button>

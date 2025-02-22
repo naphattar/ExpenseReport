@@ -43,6 +43,7 @@ const RightPanel: React.FC<RightPanelProps> = ({ selectedDate, entryData, loadin
             totalExpense={totalExpense}           
           />
           <CreateEntryPanel 
+            selectedDate={selectedDate}
             type={type} 
             setType={setType} 
             amount={amount} 

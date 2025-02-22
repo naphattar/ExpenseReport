@@ -7,16 +7,16 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - PORT=${PORT}
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_PORT=${DATABASE_PORT}
+      - PORT=8081
+      - DATABASE_HOST=entry-service-db
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=root
+      - DATABASE_NAME=Calentar
+      - DATABASE_PORT=5432
     volumes:
       - .env:/app/.env 
     networks:
-      - backend
+      - calentar
     depends_on:
       - entry-service-db
 
@@ -30,12 +30,12 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: Calentar
     networks:
-      - backend
+      - calentar
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
 networks:
-  backend:
+  calentar:
     driver: bridge
 
 volumes:
